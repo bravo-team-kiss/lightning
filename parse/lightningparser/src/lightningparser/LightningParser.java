@@ -41,9 +41,16 @@ public class LightningParser {
       long unixTimeMs;
 
       // Asks user for filename
-      System.out.println("Enter filename: ");
-      file_name = scanner.nextLine();
+      // System.out.println("Enter filename: ");
+      // file_name = scanner.nextLine();
       
+      if (args != null && args.length > 0) {
+         file_name = args[0];
+         System.out.println(args[0]);
+      } else {
+         file_name = "";
+      }
+
       // This will be deleted later. Testing purposes.
       int count = 0;
 

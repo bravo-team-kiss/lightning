@@ -1,5 +1,7 @@
 FROM openjdk:slim
 
+RUN apt-get update && apt-get install -y curl
+
 WORKDIR /app
 
 COPY lightningparser/ /app

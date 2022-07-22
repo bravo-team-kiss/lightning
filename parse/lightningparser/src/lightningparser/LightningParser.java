@@ -63,6 +63,7 @@ public class LightningParser {
          // DELETE COUNT
          while (inFile.hasNextLine()) {
             line = inFile.nextLine();
+            System.err.println("READ: " + line);
             values = removeEmpty(line.split(" "));
             
             time = values[0] + " " + values[1];
@@ -110,7 +111,7 @@ public class LightningParser {
          inFile.close();
          
       } catch (IOException ioe) {
-         System.err.println("Error opening file " + file_name);
+         System.err.println("Error opening file " + file_name + "\n" + ioe.toString());
       }   
    }
    private static String[] removeEmpty(String[] ary) {

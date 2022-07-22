@@ -2,14 +2,13 @@ package lightningparser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class LightningParser {
 
-   private static final String FILE_PATH = "input/";
-   
    /**
     * @param args the command line arguments
     */
@@ -46,26 +45,25 @@ public class LightningParser {
       
       if (args != null && args.length > 0) {
          file_name = args[0];
-         System.out.println(args[0]);
+         System.err.println("Parsing lightning file: " + args[0]);
       } else {
-         file_name = "";
+         System.err.println("No input file specified! " + Integer.toString(args.length));
+         System.exit(1);
+         return;
       }
 
       // This will be deleted later. Testing purposes.
       int count = 0;
 
       try {
-         File readFile = new File(FILE_PATH + file_name); 
+         File readFile = new File(file_name);
          Scanner inFile = new Scanner(readFile);
          
-         // delete when not used for test env. This ignores headers.
-         line = inFile.nextLine();
-         
-         // loops through the data of the file 
+         // loops through the data of the file
          // DELETE COUNT
-         while (inFile.hasNextLine() && count < 10) {
+         while (inFile.hasNextLine()) {
             line = inFile.nextLine();
-            values = line.split(","); 
+            values = removeEmpty(line.split(" "));
             
             time = values[0] + " " + values[1];
 
@@ -95,10 +93,8 @@ public class LightningParser {
 //            extra1 = values[8];
 //            extra2 = values[9];
 //            extra3 = values[10];            
-//            
-            // This will be deleted later. Testing purposes.
-            count++;
-            
+
+
             // Formats variables into string
             line = String.format("Lightning,dummy=1 latitude=%s,longitude=%s,"
                     + "signal_strength=%s,semi_major_axis=%s,"
@@ -116,5 +112,8 @@ public class LightningParser {
       } catch (IOException ioe) {
          System.err.println("Error opening file " + file_name);
       }   
+   }
+   private static String[] removeEmpty(String[] ary) {
+      return Arrays.stream(ary).filter(e -> e.trim().length() > 0).toArray(String[]::new);
    }
 }

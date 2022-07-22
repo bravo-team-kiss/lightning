@@ -1,10 +1,12 @@
-FROM openjdk:slim
+FROM debian:bullseye-slim
 
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && apt-get install -y curl openjdk-11-jre-headless ant && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
 COPY lightningparser/ /app
+
+RUN ant
 
 RUN chmod -R 755 /app
 
